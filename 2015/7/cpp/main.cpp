@@ -37,7 +37,6 @@ void logicAnd(std::string line, std::map<std::string, uint16_t> &circuit) {
       line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") - 2);
   std::string dout =
       line.substr(line.rfind(" ") + 1, line.length() - line.find(" "));
-  // std::cout << dina << " " << dinb << " " << dout << std::endl;
   std::map<std::string, uint16_t>::iterator ito = circuit.find(dout);
   if (ito == circuit.end()) {
     if (isNumber(dina) && isNumber(dinb)) {
@@ -62,7 +61,6 @@ void logicOr(std::string line, std::map<std::string, uint16_t> &circuit) {
   line = line.substr(line.find(" ") + 1, line.length() - line.find(" "));
   std::string dinb =
       line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") - 2);
-  // std::cout << dina << " " << dinb << std::endl;
   std::string dout =
       line.substr(line.rfind(" ") + 1, line.length() - line.find(" "));
   std::map<std::string, uint16_t>::iterator ito = circuit.find(dout);
@@ -72,11 +70,6 @@ void logicOr(std::string line, std::map<std::string, uint16_t> &circuit) {
     } else {
       std::map<std::string, uint16_t>::iterator ita = circuit.find(dina);
       std::map<std::string, uint16_t>::iterator itb = circuit.find(dinb);
-      //
-      // if ((ita != circuit.end() || isNumber(dina)) &&
-      //     (itb != circuit.end() || isNumber(dinb))) {
-      //   circuit[dout] = ita->second | itb->second;
-      // }
       if ((ita != circuit.end() && isNumber(dinb))) {
         circuit[dout] = ita->second | std::stoi(dinb);
       } else if (itb != circuit.end() && isNumber(dina)) {
@@ -91,11 +84,6 @@ void logicNot(std::string line, std::map<std::string, uint16_t> &circuit) {
 
   std::string dina =
       line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") - 2);
-  // line = line.substr(line.find(" ") + 1, line.length() - line.find(" "));
-  // std::string dinb =
-  //     line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") -
-  //     2);
-  // std::cout << dina << "|" << std::endl;
   std::string dout =
       line.substr(line.rfind(" ") + 1, line.length() - line.find(" "));
   std::map<std::string, uint16_t>::iterator ito = circuit.find(dout);
@@ -119,16 +107,12 @@ void logicLshift(std::string line, std::map<std::string, uint16_t> &circuit) {
       line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") - 2);
   std::string dout =
       line.substr(line.rfind(" ") + 1, line.length() - line.find(" "));
-  // std::cout << dina << " " << dinb << dout << std::endl;
   std::map<std::string, uint16_t>::iterator ito = circuit.find(dout);
   if (ito == circuit.end()) {
     if (isNumber(dina)) {
       circuit[dout] = std::stoi(dina) < std::stoi(dinb);
     } else {
       std::map<std::string, uint16_t>::iterator ita = circuit.find(dina);
-      // std::map<std::string, uint16_t>::iterator itb =
-      // circuit.find(dinb);
-
       if (ita != circuit.end()) {
         circuit[dout] = ita->second << std::stoi(dinb);
       }
@@ -141,7 +125,6 @@ void logicRshift(std::string line, std::map<std::string, uint16_t> &circuit) {
   line = line.substr(line.find(" ") + 1, line.length() - line.find(" "));
   std::string dinb =
       line.substr(line.find(" ") + 1, line.find("-") - line.find(" ") - 2);
-  // std::cout << dina << " " << dinb << std::endl;
   std::string dout =
       line.substr(line.rfind(" ") + 1, line.length() - line.find(" "));
   std::map<std::string, uint16_t>::iterator ito = circuit.find(dout);
@@ -150,9 +133,6 @@ void logicRshift(std::string line, std::map<std::string, uint16_t> &circuit) {
       circuit[dout] = std::stoi(dina) >> std::stoi(dinb);
     } else {
       std::map<std::string, uint16_t>::iterator ita = circuit.find(dina);
-      // std::map<std::string, uint16_t>::iterator itb =
-      // circuit.find(dinb);
-
       if (ita != circuit.end()) {
         circuit[dout] = ita->second >> std::stoi(dinb);
       }
@@ -160,7 +140,6 @@ void logicRshift(std::string line, std::map<std::string, uint16_t> &circuit) {
   }
 }
 void executeLine(std::string line, std::map<std::string, uint16_t> &circuit) {
-  // std::cout << line << std::endl;
   if (line.find("NOT") != std::string::npos) {
     logicNot(line, circuit);
   } else if (line.find("OR") != std::string::npos) {
@@ -196,9 +175,21 @@ int main() {
     }
     x++;
   }
-  for (std::map<std::string, uint16_t>::iterator it = circuit.begin();
-       it != circuit.end(); it++) {
-    std::cout << it->first << ":\t" << it->second << std::endl;
+  std::cout << "Part 1 a:\t" << circuit["a"] << std::endl;
+  uint16_t temp = circuit["a"];
+  circuit.clear();
+  circuit["b"] = temp;
+  x = 0;
+  while (circuit.find("a") == circuit.end()) {
+    for (size_t j = 0; j < lines.size(); j++) {
+      executeLine(lines[j], circuit);
+    }
+    x++;
   }
+  // for (std::map<std::string, uint16_t>::iterator it = circuit.begin();
+  //      it != circuit.end(); it++) {
+  //   std::cout << it->first << ":\t" << it->second << std::endl;
+  // }
+  std::cout << "Part 2 a:\t" << circuit["a"] << std::endl;
   return 0;
 }
