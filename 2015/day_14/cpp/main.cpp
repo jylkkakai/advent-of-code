@@ -35,18 +35,6 @@ int main() {
     reindeer.push_back(sm[3]);
     reindeer.push_back(sm[4]);
     reindeers.push_back(reindeer);
-    // travelledDistance(reindeer, 2503);
-    // std::cout << sm[1] << " " << travelledDistance(reindeer, travel_time)
-    //           << std::endl;
-    //
-    // std::cout << sm[1] << " "
-    //           << travel_time / (std::stoi(sm[3]) + std::stoi(sm[4])) *
-    //                      std::stoi(sm[2]) * std::stoi(sm[3]) +
-    //                  std::min(std::stoi(sm[3]),
-    //                           int(travel_time %
-    //                               (std::stoi(sm[3]) + std::stoi(sm[4])))) *
-    //                      std::stoi(sm[2])
-    //           << std::endl; // Part 1
   }
 
   // Part 1
