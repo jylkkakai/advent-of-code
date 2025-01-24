@@ -75,7 +75,36 @@ void part1(FILE *f) {
     }
     // printf("----\n");
   }
-  printf("Part 1; %d\n", sum_of_ids);
+  printf("Part 1: %d\n", sum_of_ids);
+  free(line);
+}
+
+void part2(FILE *f) {
+
+  size_t line_max = 128;
+  char *line = NULL;
+  int sum_of_ids = 0;
+
+  printf("Part 2:\n");
+  char *ds = "0123456789";
+  strslice_t digits = {.data = ds, .len = 10};
+  while (getline(&line, &line_max, f) != -1) {
+    // /*   */ letters_t letters = {.len = 0};
+    strslice_t ss = str_to_slice(line);
+
+    strslice_t name = slc_shifts(&ss, digits);
+    strslice_t id = slc_shiftc(&ss, '[');
+    for (size_t i = 0; i < name.len; i++) {
+      if (name.data[i] != '-')
+        printf("%c",
+               ((name.data[i] - 0x61) + (int)strtol(id.data, NULL, 10)) % 26 +
+                   0x61);
+      else
+        printf("%c", name.data[i]);
+    }
+    print_slc(&id);
+    printf("\n");
+  }
   free(line);
 }
 
@@ -87,6 +116,8 @@ int main() {
     return 1;
   }
   part1(f);
+  rewind(f);
+  part2(f);
 
   fclose(f);
   return 0;
