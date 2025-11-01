@@ -12,6 +12,7 @@ strslice_t str_to_slice(char *s) {
   return (strslice_t){.len = strlen(s), .data = s};
 }
 
+// Returns zero len if delim not found or end of slice
 strslice_t slc_shiftc(strslice_t *s, char delim) {
   size_t len = 0;
   strslice_t ret;
@@ -65,3 +66,5 @@ void print_slc(const strslice_t *s) {
     printf("%c", s->data[i]);
   }
 }
+
+void print_slc_len(const strslice_t *s) { printf("%zu\n", s->len); }
