@@ -41,6 +41,14 @@ bool char_is_in(char c, strslice_t s) {
   return false;
 }
 
+int slc_comp_str(strslice_t *slc, char *str) {
+  for (int i = 0; i < slc->len; i++) {
+    if (slc->data[i] != str[i])
+      return 0;
+  }
+  return 1;
+}
+
 // Not sure about the input slice data pointer position or do I need this one
 strslice_t slc_shifts(strslice_t *s, strslice_t delims) {
   size_t len = 0;
