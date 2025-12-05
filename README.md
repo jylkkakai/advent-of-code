@@ -9,3 +9,4 @@
 [Exercism](https://exercism.org/)
 [Wargames](https://overthewire.org/wargames/)
 [Cryptopals](https://cryptopals.com/)
+[Advent of FPGA](https://blog.janestreet.com/advent-of-fpga-challenge-2025/)
