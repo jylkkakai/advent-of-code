@@ -1,0 +1,87 @@
+
+diag = []
+# with open("input.txt") as file:
+with open("example.txt") as file:
+    for line in file:
+        diag.append(line[:-1])
+
+# Part 1
+spls = set()
+spls.add(diag[0].find('S'))
+count = 0
+for line in diag:
+    tspls = set()
+    rspls = set()
+    for spl in spls:
+        if line[spl] == '^':
+            tspls.add(spl - 1)
+            tspls.add(spl + 1)
+            rspls.add(spl)
+            count += 1
+    spls.difference_update(rspls)
+    spls.update(tspls)
+print("Part 1: " + str(count))
+print(spls)
+
+# Part 2
+count = 0
+# print(diag)
+# for i, line in enumerate(diag):
+#     diag[i] = line.split()
+#
+# print(diag)
+# stack = []
+# left = True
+# stack.append([0, diag[0].find('S')])
+# y, x = 0, diag[0].find('S')
+print(len(diag), len(diag[0]))
+timelines = [[0 for _ in row] for row in diag]
+# print ([ine for line in timelines])
+# for line in timelines:
+#     print(line)
+
+for i, line in enumerate(diag):
+    for j, c in enumerate(line):
+        if c == 'S':
+            timelines[i][j] = 1
+        elif c == '^':
+            print(j, j+1)
+            timelines[i][j+1] += timelines[i-1][j]
+            # timelines[i][j-1] += timelines[i-1][j]
+            # timelines[i][j+1] += timelines[i-1][j]
+        else:
+            timelines[i][j] = timelines[i - 1][j]
+
+
+
+for line in timelines:
+    print(line)
+# while len(stack) > 0 or count == 0:
+#     print(y, x, count)
+#     if y >= len(diag) - 1:
+#
+#         count += 1
+#         if left:
+#             left = False
+#             y = stack[-1][0] 
+#             x = stack[-1][1] + 1
+#             # print("Pop: ", stack[-1])
+#             stack.pop()
+#         else:
+#             # print("Pop: ", stack[-1])
+#             # stack.pop()
+#             y = stack[-1][0] 
+#             x = stack[-1][1] + 1
+#             # print("Pop: ", stack[-1])
+#             stack.pop()
+#     else:
+#         if diag[y][x] == '^':
+#             left = True
+#             stack.append([y,x])
+#             # print(stack)
+#             x -= 1
+#     y += 1
+
+print("Part 2: " + str(count))
+
+
